@@ -1,10 +1,11 @@
 import os
 import argparse
-from models import Base, Transaction
+from models import Base
 from pathlib import Path
 from parsing import parse_files
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from chase_statistics import run_app
 
 basedir = Path(os.path.abspath(os.path.dirname(__file__)))
 credit_path = basedir / 'credit_statements'
@@ -31,9 +32,7 @@ def generate():
     args = parser.parse_args()
     session = create_session(args.reset)
     parse_files(args.mapping, args.credit, args.debit, args.default, session)
-
-    # Summary statistics using plotly
-    # then create summary statistics? / csvs from this information
+    run_app(session)
 
 if __name__ == "__main__":
     generate()
