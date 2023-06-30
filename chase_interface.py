@@ -32,7 +32,8 @@ def generate():
     args = parser.parse_args()
     session = create_session(args.reset)
     parse_files(args.mapping, args.credit, args.debit, args.default, session)
-    run_app(session)
+    if not args.reset:
+        run_app(session)
 
 if __name__ == "__main__":
     generate()
